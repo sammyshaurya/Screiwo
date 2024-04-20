@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
+
 export default function Signin({ togglemode }) {
   const [formData, setformData] = React.useState({
     username: "",
@@ -22,7 +23,7 @@ export default function Signin({ togglemode }) {
       .then((res) => {
         const { message, token } = res.data;
         localStorage.setItem("token", token);
-        console.log(message);
+        
       });
   };
 

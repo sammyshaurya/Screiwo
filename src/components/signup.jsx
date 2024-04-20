@@ -44,7 +44,7 @@ export default function Signup({ togglemode }) {
 
   return (
     <section>
-      <div className="mb-16" style={{ marginLeft: "200px" }}>
+      <div className="mb-16 mt-10" style={{ marginLeft: "200px" }}>
         <div className="bg-white rounded-lg shadow sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
