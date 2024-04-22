@@ -1,30 +1,38 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 
 export default function Signin({ togglemode }) {
-  const [formData, setformData] = React.useState({
+  const [formData, setFormData] = React.useState({
     username: "",
     password: "",
   });
 
-  const handleInputChange = async (event) => {
-    setformData({ ...formData, [event.target.name]: event.target.value });
+  const navigate = useNavigate();
+
+  const handleInputChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const login = async (e) => {
     e.preventDefault();
     const { username, password } = formData;
-    await axios
-      .get(
+    try {
+      const res = await axios.get(
         `http://localhost:3000/api/users/login?username=${username}&password=${password}`
-      )
-      .then((res) => {
-        const { message, token } = res.data;
-        localStorage.setItem("token", token);
-        
-      });
+      );
+      const { profiled , token } = res.data;
+      localStorage.setItem("token", token);
+      if (profiled === true) {
+        navigate("/home");
+      }
+      else{
+        navigate("/createprofile");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
   };
 
   return (

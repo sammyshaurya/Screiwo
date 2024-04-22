@@ -4,10 +4,26 @@ import Profile from "../../models/Profile.model.js";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import { Route } from "react-router";
 
 const Router = express.Router();
 
 Router.use(cors());
+
+const verifyToken = (req, res, next) => {
+  const token = req.body.token || req.query.token || req.headers["x-access-token"];
+  if (!token) return res.status(401).send("Access denied. No token provided.");
+  else {
+    User.findOne({ token: token }, (err, user) => {
+      if (err) return res.status(401).send("Invalid User.");
+      else {
+        req.user = user;
+        next();
+      }
+    });
+  }
+}
+
 Router.post("/api/users/signup", async (req, res) => {
   const { username, email, password, firstname, lastname } = req.body;
 
@@ -19,10 +35,11 @@ Router.post("/api/users/signup", async (req, res) => {
       return res.status(400).send("Password must be at least 8 characters");
     }
 
-    const existingUser = await User.findOne({ email: email });
+    const existingUser = await User.findOne({ email: email , username: username });
     if (existingUser) {
-      return res.status(400).send("Email already exists");
+      return res.status(400).send("Email or username already exists");
     }
+
 
     const hash = await bcrypt.hash(password, 10);
 
@@ -49,15 +66,18 @@ Router.post("/api/users/signup", async (req, res) => {
 Router.get("/api/users/login", async (req, res) => {
   const { username, password } = req.query;
   const user = await User.findOne({ username: username });
+  const userProfiled = await Profile.findOne({ userid: user._id });
+  if (userProfiled) {return res.send({profiled: true, token: user.token})}
   const validPassword = await bcrypt.compare(password, user.password);
   if (!user || !validPassword) {
     return res.status(400).send("Invalid username or password");
   }
   const token = user.token;
-  res.send({ message: "Login Successful", token: token });
+  res.send({ profiled: false, token: token });
 });
 
-Router.post("/api/profile/create", async (req, res) => {
+
+Router.post("/api/profile/create",verifyToken, async (req, res) => {
   try {
     const { profileType, gender, dob, mobile } = req.body.profileData;
     const { token } = req.body;
