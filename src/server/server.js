@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 import Router from './routes/routes.js'
+import verifyUser from './routes/verifyUser.js'
 
 const App = express();
 
@@ -13,6 +14,7 @@ const App = express();
 App.use(express.json());
 App.use(cors());
 App.use(Router)
+App.use(verifyUser)
 
 // Connect to the database
 const connectdb = async () => {
@@ -24,8 +26,6 @@ const connectdb = async () => {
         throw error;
     }
 };
-
-
 
 
 // Start the server after database connection

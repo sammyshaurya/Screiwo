@@ -13,21 +13,21 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <div className="flex">
-        <div className="flex flex-col items-center justify-center w-1/2 h-full">
+      <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col items-center justify-start lg:w-1/2 h-full lg:pl-10 ">
           <img
             src="/main.svg"
             alt="Description"
+            className="ml-10 lg:w-full lg:h-auto lg:ml-0 lg:mt-10 hidden lg:block"
             width={800}
-            className="ml-10 mt-10"
           />
         </div>
-        <div className="flex flex-col w-1/2">
+        <div className="flex flex-col w-full lg:w-1/2">
           {usermode ? <Signin togglemode={togglemode} /> : <Signup togglemode={togglemode} />}
         </div>
       </div>
     </>
   );
-};
+}
 
 export default App;

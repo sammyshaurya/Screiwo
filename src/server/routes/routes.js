@@ -4,25 +4,35 @@ import Profile from "../../models/Profile.model.js";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import { Route } from "react-router";
 
 const Router = express.Router();
 
 Router.use(cors());
 
 const verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers["x-access-token"];
+  const token = req.body.token || req.query.token || req.headers.authorization;
   if (!token) return res.status(401).send("Access denied. No token provided.");
   else {
-    User.findOne({ token: token }, (err, user) => {
-      if (err) return res.status(401).send("Invalid User.");
-      else {
+    User.findOne({ token: token })
+      .then(user => {
+        if (!user) {
+          return res.status(401).send({ message: "Invalid User.", valid: false });
+        }
         req.user = user;
         next();
-      }
-    });
+      })
+      .catch(error => {
+        console.error('Error verifying token:', error);
+        return res.status(500).send({ message: "Internal Server Error" });
+      });
   }
 }
+
+
+Router.get("/api/profile", verifyToken, async (req, res) => {
+  const profile = req.user;
+  res.status(200).json({profile});
+})
 
 Router.post("/api/users/signup", async (req, res) => {
   const { username, email, password, firstname, lastname } = req.body;
@@ -77,7 +87,7 @@ Router.get("/api/users/login", async (req, res) => {
 });
 
 
-Router.post("/api/profile/create",verifyToken, async (req, res) => {
+Router.post("/api/profile/create", verifyToken, async (req, res) => {
   try {
     const { profileType, gender, dob, mobile } = req.body.profileData;
     const { token } = req.body;

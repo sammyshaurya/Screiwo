@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 
 export default function Signin({ togglemode }) {
   const [formData, setFormData] = React.useState({
@@ -22,12 +22,11 @@ export default function Signin({ togglemode }) {
       const res = await axios.get(
         `http://localhost:3000/api/users/login?username=${username}&password=${password}`
       );
-      const { profiled , token } = res.data;
+      const { profiled, token } = res.data;
       localStorage.setItem("token", token);
       if (profiled === true) {
         navigate("/home");
-      }
-      else{
+      } else {
         navigate("/createprofile");
       }
     } catch (error) {
@@ -36,12 +35,11 @@ export default function Signin({ togglemode }) {
   };
 
   return (
-    <section>
-      {/* class="bg-gray-50 dark:bg-gray-900" */}
-      <div className="mt-16" style={{ marginLeft: "200px" }}>
-        <div className="bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 ">
+    <section className="flex justify-center">
+      <div className="mt-16">
+        <div className="bg-white rounded-lg shadow sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
