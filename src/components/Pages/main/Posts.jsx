@@ -4,7 +4,6 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Typography from "../Typography";
 import Comment from "~/public/uicomponents/comment.svg";
 import Saveicon from "~/public/uicomponents/saveicon.svg";
-import { Separator } from "@/components/ui/separator";
 
 export const Posts = () => {
   let user;

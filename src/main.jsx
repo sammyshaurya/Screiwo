@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import { Profile } from "./components/Pages/main/Profile";
 import AuthGuard from "./components/AuthGuard";
 import CreateProfile from "./components/Pages/main/CreateProfile.jsx";
+import Postings from "@/components/Pages/Postings"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -15,6 +16,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<App />} />
+      
       <Route
         path="/*"
         element={
@@ -22,6 +24,7 @@ root.render(
             <Routes>
               <Route path="/createprofile" element={<CreateProfile />} exact/>
               <Route path="/profile" element={<Profile />} exact/>
+              <Route path="/post" element={<Postings />} exact/>
               {/* Add any other protected routes here */}
             </Routes>
           // </AuthGuard>

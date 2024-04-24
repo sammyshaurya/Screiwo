@@ -67,4 +67,21 @@ Link {
   font-style: italic;
 }
 
+.noto {
+  font-family: "Noto", serif;
+}
+
+.opensans {
+  font-family: "Noto", sans-serif;
+}
+
+@font-face {
+  font-family: "Noto";
+  src: local('Noto-Sans'), url('/uicomponents/Typography/Noto_serif') format('truetype');
+}
+
+@font-face {
+  font-family: "OpenSans";
+  src: local('OpenSans'), url('/uicomponents/Typography/OpenSans') format('truetype');
+}
 

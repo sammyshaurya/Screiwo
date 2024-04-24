@@ -3,7 +3,6 @@ import { ProfileNav } from "./ProfileNav";
 import { Posts } from "./Posts";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import axios from "axios";
 import { Navigate } from "react-router";
 
@@ -21,10 +20,11 @@ export const Profile = () => {
 
         const response = await axios.get("http://localhost:3000/api/profile", {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         });
-        setUser(response.data.profile);
+        const userprofile = {profile:response.data.profile, user:response.data.user}
+        setUser(userprofile);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -44,7 +44,7 @@ export const Profile = () => {
             </Avatar>
             <div className="flex-col">
               <div className="username text-decoration-line: underline ml-16 mb-3">
-                {user?.username || "Usernameblock"}
+                {user?.user.username || "Usernameblock"}
               </div>
               <div className="flex-col">
                 <div className="flex">
@@ -53,9 +53,9 @@ export const Profile = () => {
                   <div className="ml-8 mb-2">{`0 following`}</div>
                 </div>
                 <h5 className="ml-16 mb-3 text-gray-700">
-                  Aman Kumar
+                  {user?.user.firstname +" " + user?.user.lastname || "Nameblock"}
                   <span className="ml-3 text-wrap text-sm font-light text-slate-700 ">
-                    `Personal account`
+                    {`${user?.profile.profileType}`}
                   </span>
                 </h5>
                 <blockquote className="ml-16 border-l-2 pl-2 italic">

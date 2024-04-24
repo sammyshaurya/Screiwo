@@ -1,11 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import User from '../models/User.model.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 import Router from './routes/routes.js'
+import posts from './routes/posts.js'
 import verifyUser from './routes/verifyUser.js'
 
 const App = express();
@@ -15,6 +13,7 @@ App.use(express.json());
 App.use(cors());
 App.use(Router)
 App.use(verifyUser)
+App.use(posts)
 
 // Connect to the database
 const connectdb = async () => {
