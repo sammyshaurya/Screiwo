@@ -1,62 +1,102 @@
 import React from "react";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import Typography from "../Typography";
 import Comment from "~/public/uicomponents/comment.svg";
 import Saveicon from "~/public/uicomponents/saveicon.svg";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export const Posts = () => {
-  let user;
+export const Posts = ({ post }) => {
+  const givenDate = new Date(post.createdat);
+
+  function formatTimeDifference(givenDate) {
+    const currentDate = new Date();
+    let timeDifference = currentDate.getTime() - givenDate.getTime();
+    let secondsDifference = Math.floor(timeDifference / 1000);
+
+    if (secondsDifference < 60) {
+      return `${secondsDifference} second${secondsDifference !== 1 ? 's' : ''} ago`;
+    }
+
+    let minutesDifference = Math.floor(secondsDifference / 60);
+    if (minutesDifference < 60) {
+      return `${minutesDifference} minute${minutesDifference !== 1 ? 's' : ''} ago`;
+    }
+
+    let hoursDifference = Math.floor(minutesDifference / 60);
+    if (hoursDifference < 24) {
+      return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
+    }
+
+    let daysDifference = Math.floor(hoursDifference / 24);
+    if (daysDifference < 30) {
+      return `${daysDifference} day${daysDifference !== 1 ? 's' : ''} ago`;
+    }
+
+    let monthsDifference = Math.floor(daysDifference / 30);
+    if (monthsDifference < 12) {
+      return `${monthsDifference} month${monthsDifference !== 1 ? 's' : ''} ago`;
+    }
+
+    let yearsDifference = Math.floor(monthsDifference / 12);
+    return `${yearsDifference} year${yearsDifference !== 1 ? 's' : ''} ago`;
+  }
+
   return (
-    <div className="grid grid-cols-2 gap-4 mx-36 mb-10">
-      <div className="aspect-w-16 aspect-h-9 border-1 shadow-md rounded-lg bg-white border-slate-300">
-        <AspectRatio ratio={16 / 9}>
-          <div className="flex">
-            <div>
-              <Avatar className="h-8 w-8 mt-3 ml-3">
-                <AvatarImage src="https://github.com/shadcn.png" />
-              </Avatar>
-            </div>
-            <span className="ml-3 my-3">sammyshaurya</span>
-            <span className="text-xs ml-auto mr-8 my-4">{user?.postdate > 0 ? user?.postdate : "24/04/2024"}</span>
+    <Card className="flex flex-col">
+      <CardHeader>
+        <CardTitle>{post?.title ? post?.title : "No Title"}</CardTitle>
+        <CardDescription>
+          <div className="flex items-center">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src="https://github.com/shadcn.png" />
+            </Avatar>
+            <span className="ml-3">sammyshaurya</span>
+            <span className="text-xs ml-auto">
+              {formatTimeDifference(givenDate)}
+            </span>
           </div>
-          <Typography
-            variant="title"
-            className="mx-3 line-clamp-2 merriweather-black text-gray-800 dark"
-          >
-            I am starting screiwo with this first blog!!
-          </Typography>
-          <p className="merriweather-light line-clamp-3 mx-3 mt-1">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
-            voluptatem harum dolor fugiat id quibusdam sequi dolores! Hic nisi
-            asperiores totam illum molestias delectus dignissimos iste nemo
-            exercitationem! Nostrum, corrupti?
-          </p>
-          <div className="flex mx-3 my-3 items-center">
-            <h6 className="text-sm mr-2">7 likes</h6>
-            <h6 className="text-sm">
-              <img
-                src={Comment}
-                alt="Comment icon"
-                className="inline-block ml-2 mr-1 h-5 w-5"
-              />
-              {user?.commentscount > 0
-                ? `${user?.commentscount} comments`
-                : "No comments"}
-            </h6>
-            <h6 className="text-sm ml-auto mr-2">
-              <img
-                src={Saveicon}
-                alt="Save icon"
-                className="inline-block ml-2 mr-1 h-5 w-5"
-              />
-              {user?.commentscount > 0
-                ? `${user?.postsaves} comments`
-                : "No Saves"}
-            </h6>
+        </CardDescription>
+      </CardHeader>
+      <hr className="mx-4 border-t-1 border-gray-500 dark:border-gray-700" />
+      <CardContent className="flex-1 mt-2">
+        <div className="line-clamp-3">
+          {post?.content
+            ? post?.content
+            : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque eaque architecto quis tempore sit officia quisquam similique saepe, temporibus necessitatibus inventore maxime veritatis rem dolores laboriosam ducimus sed quam quasi?"}
+        </div>
+      </CardContent>
+
+      <CardFooter className="mt-auto">
+        <div className="flex items-center">
+          <h6 className="text-sm mr-4 mt-2">7 likes</h6>
+          <img
+            src={Comment}
+            alt="Comment icon"
+            className="inline-block mr-1 h-5 w-5"
+          />
+          <div className="mr-2">
+            {post?.commentscount > 0
+              ? `${post?.commentscount} comments`
+              : "No comments"}
           </div>
-        </AspectRatio>
-      </div>
-    </div>
+          <img
+            src={Saveicon}
+            alt="Save icon"
+            className="inline-block mr-1 h-5 w-5"
+          />
+          <div>
+            {post?.commentscount > 0
+              ? `${post?.postsaves} comments`
+              : "No Saves"}
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };

@@ -3,7 +3,7 @@ import Profile from "../../models/Profile.model.js";
 
 const verifyUser = async (req, res, next) => {
     try {
-        let token = req.body.token || req.query.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+        let token = req.body.token || req.headers.authorization || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
         
         if (!token) {
             return res.status(401).send("Access denied. No token provided.");
@@ -25,7 +25,7 @@ const verifyUser = async (req, res, next) => {
 
 const userProfile = async (req,res,next) => {
     try {
-        let token = req.body.token || req.query.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+        let token = req.body.token || req.headers.authorization || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
         
         if (!token) {
             return res.status(401).send("Access denied. No token provided.");

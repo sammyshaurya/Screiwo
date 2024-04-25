@@ -40,7 +40,7 @@ const ProfileNavItems = () => {
   
 export const ProfileNav = () => {
   return (
-    <div className="flex flex-col h-screen w-2/12 items-start border-r border-gray-200">
+    <div className="flex flex-col h-screen w-16 md:w-32 lg:w-48  items-start border-r border-gray-200">
       <Link
         to="/profile"
         className="mt-6 ml-8"

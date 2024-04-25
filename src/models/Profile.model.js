@@ -16,6 +16,10 @@ const ProfileSchema = new Schema({
         type: String,
         required: true
     },
+    postCount: {
+        type: Number,
+        default: 0
+    },
     gender: {
         type: String,
         required: true

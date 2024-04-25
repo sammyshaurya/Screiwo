@@ -6,7 +6,7 @@ const verifyUser = express.Router();
 verifyUser.use(cors());
 
 verifyUser.get('/api/verify-token', async (req, res) => {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    const token = req.body.token || req.query.token || req.headers["x-access-token"] || req.headers.authorization;
     if (!token) return res.status(401).send("Access denied. No token provided.");
     else {
       const user = await User.findOne({ token: token })

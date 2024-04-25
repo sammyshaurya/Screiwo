@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const Postings = () => {
   const textareaRef = useRef(null);
@@ -25,13 +26,14 @@ const Postings = () => {
         { title, content },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: localStorage.getItem("token"),
           },
         }
       );
 
       if (response.status === 201) {
         alert("Post created successfully!");
+        <Navigate to={'/profile'}/>
       } else {
         alert("Error creating post");
       }

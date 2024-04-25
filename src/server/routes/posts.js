@@ -6,6 +6,19 @@ import {verifyUser} from './fetchData.js';
 const posts = express.Router();
 posts.use(cors());
 
+posts.get('/api/user/allposts', verifyUser, async (req, res) => {
+    const token = req.headers.authorization;
+    const userId = req.user._id;
+    Posts.find({ userid: userId })
+        .then((posts) => {
+            res.status(200).json(posts);
+        })
+        .catch((error) => {
+            console.error("Error fetching posts:", error);
+            res.status(500).json({ error: "Internal server error" });
+        });
+});
+
 posts.post("/api/users/createpost", verifyUser, async (req, res) => {
   const { title, content } = req.body;
   if (!title || !content) {

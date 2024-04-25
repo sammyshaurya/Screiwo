@@ -10,8 +10,9 @@ const Router = express.Router();
 
 Router.use(cors());
 
-
 Router.get("/api/profile", verifyUser, userProfile, async (req, res) => {
+  const token = req.headers.authorization;
+  console.log(token)
   const userProfile = {profile : req.profile, user: req.user}
   res.status(201).send(userProfile)
 })

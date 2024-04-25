@@ -16,6 +16,10 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  postcount: {
+    type: Number,
+    default: 0
+  },
   likes: {
     type: Number,
     default: 0
