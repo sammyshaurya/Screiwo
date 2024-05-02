@@ -1,3 +1,8 @@
+git clone repo
+npm i
+node run dev / node start
+* connect db and api call changes
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
