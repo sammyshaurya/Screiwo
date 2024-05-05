@@ -23,7 +23,7 @@ const CreateProfile = () => {
 
      const submit = async() =>{
         if (profileData.profileType && profileData.gender && profileData.dob && profileData.mobile){
-            await axios.post('http://localhost:3000/api/profile/create', {profileData, token: localStorage.getItem('token')})
+            await axios.post('http://54.175.140.95:3000/api/profile/create', {profileData, token: localStorage.getItem('token')})
      }}
 
     return (

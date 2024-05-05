@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export const Posts = ({ post }) => {
+export const Posts = ({ post, profile }) => {
   const givenDate = new Date(post.createdat);
 
   function formatTimeDifference(givenDate) {
@@ -54,7 +54,7 @@ export const Posts = ({ post }) => {
         <CardDescription>
           <div className="flex items-center">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={profile} />
             </Avatar>
             <span className="ml-3">sammyshaurya</span>
             <span className="text-xs ml-auto">

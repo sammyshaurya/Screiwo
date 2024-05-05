@@ -7,6 +7,8 @@ import { Profile } from "./components/Pages/main/Profile";
 import CreateProfile from "./components/Pages/main/CreateProfile.jsx";
 import Postings from "@/components/Pages/Postings"
 import '@radix-ui/themes/styles.css';
+// import SearchPage from "./components/Pages/search/SearchPage";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -15,7 +17,8 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<App />} />
-      
+      {/* <Route path="/test" element={<Test />} /> */}
+      {/* <Route path="/search" element={<SearchPage />} /> */}
       <Route
         path="/*"
         element={

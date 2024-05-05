@@ -7,7 +7,6 @@ const posts = express.Router();
 posts.use(cors());
 
 posts.get('/api/user/allposts', verifyUser, async (req, res) => {
-    const token = req.headers.authorization;
     const userId = req.user._id;
     Posts.find({ userid: userId })
         .then((posts) => {

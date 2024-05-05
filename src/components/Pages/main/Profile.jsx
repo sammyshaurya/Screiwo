@@ -13,13 +13,37 @@ import { StretchVerticallyIcon } from "@radix-ui/react-icons";
 export const Profile = () => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [profile, setprofile] = useState("");
+
+  useEffect(() => {
+    fetchImage();
+  }, []);
+
+  const fetchImage = () => {
+    if (profile) {
+      return;
+    }
+    fetch(
+      "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
+    )
+      .then((response) => {
+        if (response.ok) {
+          setprofile(response.url);
+        } else {
+          console.error("Failed to fetch image");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching image:", error);
+      });
+  };
 
   // Fetch posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/user/allposts",
+          "http://54.175.140.95:3000/api/user/allposts",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -44,7 +68,7 @@ export const Profile = () => {
           Navigate("/");
           return;
         }
-        const response = await axios.get("http://localhost:3000/api/profile", {
+        const response = await axios.get("http://54.175.140.95:3000/api/profile", {
           headers: {
             Authorization: token,
           },
@@ -70,17 +94,20 @@ export const Profile = () => {
           <div className="mx-36 mt-6 flex flex-col items-start">
             <div className="flex items-center">
               <Avatar className="flex h-40 w-40">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <div>
+                  {profile && <AvatarImage src={profile} alt="Avatar" />}
+                </div>
               </Avatar>
               <div className="flex-col">
                 <div className="flex justify-between">
                   <div className="username text-decoration-line: underline ml-16 mb-3">
                     {user?.user.username || "Usernameblock"}
                   </div>
-                  <Link to={'/post'}>
-                  <Button variant="surface" color="indigo" className="mt-2">
-                    <StretchVerticallyIcon/>Create Post
-                  </Button>
+                  <Link to={"/post"}>
+                    <Button color="indigo" variant="soft" className="mt-2 ">
+                      <StretchVerticallyIcon />
+                      Create Post
+                    </Button>
                   </Link>
                 </div>
                 <div className="flex-col">
@@ -108,7 +135,8 @@ export const Profile = () => {
           </div>
           <div className="grid grid-cols-2 gap-4 mx-36 mb-10">
             {posts.map((post, index) => (
-              <Posts key={index} post={post} />
+              <Posts key={index} post={post} profile={profile ? profile : null} />
+
             ))}
           </div>
         </div>
