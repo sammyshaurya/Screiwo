@@ -23,6 +23,7 @@ const verifyUser = async (req, res, next) => {
     }
 };
 
+
 const userProfile = async (req,res,next) => {
     try {
         let token = req.body.token || req.headers.authorization || (req.headers.authorization && req.headers.authorization.split(" ")[1]);

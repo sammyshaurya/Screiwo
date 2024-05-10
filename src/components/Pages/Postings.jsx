@@ -22,7 +22,7 @@ const Postings = () => {
 
     try {
       const response = await axios.post(
-        "http://54.175.140.95:3000/api/users/createpost",
+        "http://localhost:3000/api/users/createpost",
         { title, content },
         {
           headers: {

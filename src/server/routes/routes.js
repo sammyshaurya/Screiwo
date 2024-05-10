@@ -10,6 +10,22 @@ const Router = express.Router();
 
 Router.use(cors());
 
+Router.get("/api/allusers", async (req, res) => {
+  let query = req.query.q;
+    try {
+        const users = await User.find({username: {$regex: query, $options: 'i'}});
+        const searchedUser = users.map(user => {
+            const { username, ...userData } = user.toObject();
+            return username;
+        });
+        res.status(200).send(searchedUser);
+        
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send({ message: "Internal Server Error" });
+}
+})
+
 Router.get("/api/profile", verifyUser, userProfile, async (req, res) => {
   const token = req.headers.authorization;
   const userProfile = {profile : req.profile, user: req.user}

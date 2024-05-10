@@ -14,7 +14,7 @@ const App = () => {
     <>
       <Navbar />
       <div className="flex flex-col lg:flex-row">
-        <div className="flex flex-col items-center justify-start lg:w-1/2 h-full lg:pl-10 ">
+        <div className="flex flex-col items-center justify-start lg:w-1/2 h-full lg:pl-10">
           <img
             src="/main.svg"
             alt="Description"
