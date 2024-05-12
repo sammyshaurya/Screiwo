@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { ProfileNav } from "@/components/Pages/main/ProfileNav";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { TextField, Flex, TabNav } from "@radix-ui/themes";
+import { Divider } from "@nextui-org/divider";
+import { Tabs, Tab } from "@nextui-org/tabs";
+import { Input } from "@nextui-org/input";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Avatar,
+  Button,
+} from "@nextui-org/react";
 
 const SearchPage = () => {
   const [search, setSearch] = useState("");
@@ -19,7 +28,7 @@ const SearchPage = () => {
       if (value.trim().length > 2) {
         fetchData(value);
       }
-    }, 500);
+    }, 800);
   };
 
   const fetchData = async (query) => {
@@ -38,7 +47,6 @@ const SearchPage = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
       setSearchResults(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -46,41 +54,75 @@ const SearchPage = () => {
       setLoading(false);
     }
   };
-
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col h-full bg-gray-100">
       <ProfileNav />
-      <div className="flex-1 overflow-y-auto bg-gray-100">
-        <h3 className="p-4 pb-0"> Search user by id or name</h3>
-        <div className="input-group p-4">
-          <span className="input-group-text" id="basic-addon1">
-            Search
-          </span>
-          <input
+      <div className="flex-1 flex">
+        <div className="flex-1">
+          <Input
+            className="m-4 w-8/12 mx-auto"
             type="text"
-            className="form-control"
-            placeholder="..."
             value={search}
+            label="Search User or Post"
+            variant="underlined"
             onChange={handleChange}
             aria-label="Search"
             aria-describedby="basic-addon1"
           />
+          <Divider />
+          <div className="flex justify-center">
+            <Tabs variant="underlined">
+              <Tab title="Users" />
+              <Tab title="Posts" />
+            </Tabs>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-2 w-8/12 mx-auto justify-center">
+            {loading && <p>Loading...</p>}
+            {searchResults &&
+              searchResults.map((result, index) => (
+                <Card
+                  key={index}
+                  className="max-w-[340px] col-span-1 sm:col-span-1 md:col-span-1 md:col-start-1 md:col-end-auto"
+                >
+                  <CardHeader className="justify-between">
+                    <div className="flex gap-5">
+                      <Avatar
+                        isBordered
+                        radius="full"
+                        size="md"
+                        src="https://nextui.org/avatars/avatar-1.png"
+                      />
+                      <div className="flex flex-col gap-1 items-start justify-center">
+                        <h4 className="text-small font-semibold leading-none text-default-600">
+                          {result.FirstName + " " + result.LastName}
+                        </h4>
+                        <h5 className="text-small tracking-tight text-default-400">
+                          {result.username}
+                        </h5>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="px-3 py-0 text-small text-default-400">
+                    <p>{result.Bio}</p>
+                  </CardBody>
+                  <CardFooter className="gap-3">
+                    <div className="flex gap-1">
+                      <p className="font-semibold text-default-400 text-small">
+                        {result.Followings}
+                      </p>
+                      <p className=" text-default-400 text-small">Following</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <p className="font-semibold text-default-400 text-small">
+                        {result.Followers}
+                      </p>
+                      <p className="text-default-400 text-small">Followers</p>
+                    </div>
+                  </CardFooter>
+                </Card>
+              ))}
+          </div>
         </div>
-        <hr></hr>
-        <Flex direction="column" gap="4" pb="2">
-          <TabNav.Root color="indigo">
-            <TabNav.Link href="#" active>
-              Accounts
-            </TabNav.Link>
-            <TabNav.Link href="#">Documents</TabNav.Link>
-            <TabNav.Link href="#">Settings</TabNav.Link>
-          </TabNav.Root>
-        </Flex>
-        {loading && <p>Loading...</p>}
-        <ul>
-          {searchResults &&
-            searchResults.map((result, index) => <li key={index}>{result}</li>)}
-        </ul>
       </div>
     </div>
   );

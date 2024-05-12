@@ -13,10 +13,10 @@ Router.use(cors());
 Router.get("/api/allusers", async (req, res) => {
   let query = req.query.q;
     try {
-        const users = await User.find({username: {$regex: query, $options: 'i'}});
+        const users = await Profile.find({username: {$regex: query, $options: 'i'}});
         const searchedUser = users.map(user => {
-            const { username, ...userData } = user.toObject();
-            return username;
+            const userData = user.toObject();
+            return userData;
         });
         res.status(200).send(searchedUser);
         
@@ -86,6 +86,7 @@ Router.get("/api/users/login", async (req, res) => {
 
 
 Router.post("/api/profile/create", verifyUser, async (req, res) => {
+  console.log("Creating profile");
   try {
     const { profileType, gender, dob, mobile } = req.body.profileData;
     const { token } = req.body;
@@ -99,12 +100,14 @@ Router.post("/api/profile/create", verifyUser, async (req, res) => {
       if (!existProfile) {
         const newProfile = new Profile({
           userid: userId,
+          username: dbUser.username,
+          FirstName: dbUser.firstname,
+          LastName: dbUser.lastname,
           profileType,
           gender,
           dob,
           mobile,
         });
-
         await newProfile.save();
         dbUser.isVerified = true;
         dbUser.save();

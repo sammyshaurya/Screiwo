@@ -88,8 +88,8 @@ export const Profile = () => {
 
   return (
     <Theme accentColor="gray">
-      <div className="flex h-screen">
-        <ProfileNav />
+      <ProfileNav />
+      <div className="flex">
         <div className="flex-1 overflow-y-auto bg-gray-100">
           <div className="mx-36 mt-6 flex flex-col items-start">
             <div className="flex items-center">

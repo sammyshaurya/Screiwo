@@ -1,45 +1,64 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logo from "~/public/screiwo.svg";
-import { Label } from "@/components/ui/label";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import React,{useState} from "react";
+import logo from "~/public/Logo.png";
+import SearchIcon from "~/public/assets/Search"
+import {Navbar, NavbarMenuToggle,NavbarMenu,NavbarMenuItem, Input, NavbarBrand, NavbarContent, NavbarItem, Link} from "@nextui-org/react";
+import { Navigate } from "react-router";
 
-const navigationItems = [
-  { icon: <HomeOutlinedIcon />, text: "Home", link: "/home" },
-  { icon: <SearchOutlinedIcon />, text: "Search", link: "/search" },
-  { icon: <Person4OutlinedIcon />, text: "Profile", link: "/profile" },
-  { icon: <TuneOutlinedIcon />, text: "Settings", link: "/settings" }
-];
-
-const ProfileNavItems = () => {
-  return (
-    <div className="flex flex-col">
-      {navigationItems.map((item, index) => (
-        <div className="mt-6 ml-8" key={index}>
-          <Link to={item.link} className="flex items-center text-gray-600 hover:text-gray-800">
-            {item.icon}
-            <span className="text-lg font-semibold">{item.text}</span>
-          </Link>
-        </div>
-      ))}
-    </div>
-  );
-};
-  
 export const ProfileNav = () => {
+  const [setIsMenuOpen, isMenuOpen] = useState(false);
+  
+  const menuItems = [
+    "Home",
+    "Profile",
+    "Settings",
+    "Log Out",
+  ];
+
   return (
-    <div className="flex flex-col h-screen w-16 md:w-32 lg:w-48  items-start border-r border-gray-200">
-      <Link
-        to="/profile"
-        className="mt-6 ml-8"
-        style={{ textDecoration: "none", color: "inherit" }}
-      >
-        <img src={logo} className="h-12 mb-6" alt="logo" />
-      </Link>
-      <ProfileNavItems />
-    </div>
-  );
-};
+    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered isBlurred={false}>
+      <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+      />
+      <NavbarBrand>
+        <img src={logo} alt="logo" width={150} />
+      </NavbarBrand>
+      <NavbarContent className="hidden sm:flex gap-4 mt-2" justify="center">
+        <NavbarItem>
+          <Link color="foreground" href="/profile">
+            Home
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/profile" aria-current="page">
+            Profile
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/search">
+            Search
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <Input className="mt-2" type="search" placeholder="Search" startContent={<SearchIcon size={18} />} />
+      </NavbarContent>
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === menuItems.length - 1 ? "danger" : "foreground"
+              }
+              className="w-full"
+              href="#"
+              size="lg"
+            >
+              {item}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
+  )
+}

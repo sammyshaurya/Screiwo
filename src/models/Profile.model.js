@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const { Schema } = mongoose;
 
@@ -7,6 +8,34 @@ const ProfileSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    FirstName: {
+        type: String,
+        required: true
+    },
+    LastName: {
+        type: String,
+        required: true
+    },
+    Followers: {
+        type: Number,
+        default: 0
+    },
+    Followings: {
+        type: Number,
+        default: 0
+    },
+    Posts: {
+        type: Number,
+        default: 0
+    },
+    Bio: {
+        type: String,
+        default: "I am using Screiwo"
     },
     dob: {
         type: String,
