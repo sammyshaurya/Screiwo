@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../Navbar";
+import { ProfileNav } from "./ProfileNav";
 import { DatePicker } from "antd";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
@@ -23,12 +23,12 @@ const CreateProfile = () => {
 
      const submit = async() =>{
       if (profileData.profileType && profileData.gender && profileData.dob && profileData.mobile){
-            await axios.post('http://localhost:3000/api/profile/create', {profileData, token: localStorage.getItem('token')}).then((res)=>(console.log(res))).catch((err)=>console.log(err))
+            await axios.post('http://3.219.61.208:3000/api/profile/create', {profileData, token: localStorage.getItem('token')}).then((res)=>(console.log(res))).catch((err)=>console.log(err))
      }}
 
     return (
     <>
-      <Navbar />
+      <ProfileNav/>
       <div className="flex flex-col border w-11/12 mx-auto my-4 p-8 rounded-lg md:w-8/12 lg:w-7/12 xl:w-6/12">
         <div className="flex items-center mb-8">
           <img
@@ -117,7 +117,7 @@ const CreateProfile = () => {
         </div>
 
         <div className="mt-8">
-          <Button onClick={submit} className="w-full">Button</Button>
+          <Button onClick={submit} className="w-full">Submit</Button>
         </div>
       </div>
     </>

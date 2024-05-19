@@ -43,7 +43,7 @@ export const Profile = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/user/allposts",
+          "http://3.219.61.208:3000/api/user/allposts",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -68,7 +68,7 @@ export const Profile = () => {
           Navigate("/");
           return;
         }
-        const response = await axios.get("http://localhost:3000/api/profile", {
+        const response = await axios.get("http://3.219.61.208:3000/api/profile", {
           headers: {
             Authorization: token,
           },

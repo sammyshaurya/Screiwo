@@ -21,7 +21,7 @@ export default function Signup({ togglemode }) {
       formData.password
     ) {
       await axios.post(
-        "http://54.175.140.95:3000/api/users/signup",
+        "http://3.219.61.208:3000/api/users/signup",
         formData
       ).then((res) => {
         const { message} = res.data;
