@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../../models/User.model.js";
 import Profile from "../../models/Profile.model.js";
+import Posts from "../../models/Posts.model.js";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -10,21 +11,48 @@ const Router = express.Router();
 
 Router.use(cors());
 
+// currently being used to by nav to search for users in the database
 Router.get("/api/allusers", async (req, res) => {
-  let query = req.query.q;
-    try {
-        const users = await Profile.find({username: {$regex: query, $options: 'i'}});
-        const searchedUser = users.map(user => {
-            const userData = user.toObject();
-            return userData;
-        });
-        res.status(200).send(searchedUser);
-        
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).send({ message: "Internal Server Error" });
-}
-})
+  const query = req.query.q;
+  const limit = req.query.limit || 7;
+  const page = req.query.page || 1;
+  const skip = (page - 1) * limit;
+  try {
+    const users = await Profile.find({
+      $or: [
+        { username: { $regex: query, $options: 'i' } },
+        { FirstName: { $regex: query, $options: 'i' } },
+        { LastName: { $regex: query, $options: 'i' } }
+      ]
+    })
+    .skip(skip)
+    .limit(limit);
+    
+    const searchResult = users.map(user => {
+      return {
+        username: user.username,
+        userid: user.userid
+      };
+    });
+
+    res.status(200).send(searchResult);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).send({ message: "Failed to fetch users" });
+  }
+});
+
+// fetch any users profile data
+Router.get("/api/screiwousersprofiledata", async (req, res) => {
+  try {
+    const user = req.query.username
+    const searchedUsers = await Profile.find({ username: user });
+    res.status(200).send(searchedUsers);
+  } catch (error) {
+    console.error('Error searching for users:', error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
 
 Router.get("/api/profile", verifyUser, userProfile, async (req, res) => {
   const token = req.headers.authorization;

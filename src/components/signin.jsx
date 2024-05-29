@@ -25,7 +25,7 @@ export default function Signin({ togglemode }) {
       const { profiled, token } = res.data;
       localStorage.setItem("token", token);
       if (profiled === true) {
-        navigate("/home");
+        navigate("/profile");
       } else {
         navigate("/createprofile");
       }

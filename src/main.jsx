@@ -3,13 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App.jsx";
-// import Search from "./components/Pages/search/Search";
 import AuthGuard from "./components/AuthGuard";
 import { Profile } from "./components/Pages/main/Profile";
 import CreateProfile from "./components/Pages/main/CreateProfile.jsx";
 import Postings from "@/components/Pages/Postings";
 import "@radix-ui/themes/styles.css";
 import SearchPage from "./components/Pages/search/SearchPage";
+import { UsersProfile } from "./components/Pages/main/UsersProfile/UsersProfile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,6 +18,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<App />} />
+      <Route path="user/:username" element={<UsersProfile />} />
       {/* <Route path="/test" element={<Test />} /> */}
       
       <Route

@@ -6,6 +6,7 @@ import {verifyUser} from './fetchData.js';
 const posts = express.Router();
 posts.use(cors());
 
+// Fetch posts of the logged in user
 posts.get('/api/user/allposts', verifyUser, async (req, res) => {
     const userId = req.user._id;
     Posts.find({ userid: userId })
@@ -18,6 +19,19 @@ posts.get('/api/user/allposts', verifyUser, async (req, res) => {
         });
 });
 
+// fetch any users profile posts
+posts.get("/api/screiwousersprofilepost", async (req, res) => {
+  try {
+    const curuser = req.query.userid
+    const searchedUsers = await Posts.find({ userid: curuser });
+    res.status(200).send(searchedUsers);
+  } catch (error) {
+    console.error('Error searching for users:', error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
+// Create a new post by logged in user
 posts.post("/api/users/createpost", verifyUser, async (req, res) => {
   const { title, content } = req.body;
   if (!title || !content) {

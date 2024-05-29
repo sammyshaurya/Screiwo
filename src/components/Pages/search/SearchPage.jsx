@@ -77,7 +77,6 @@ const SearchPage = () => {
             </Tabs>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-2 w-8/12 mx-auto justify-center">
-            {loading && <p>Loading...</p>}
             {searchResults &&
               searchResults.map((result, index) => (
                 <Card

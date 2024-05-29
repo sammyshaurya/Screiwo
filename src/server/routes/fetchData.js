@@ -23,7 +23,7 @@ const verifyUser = async (req, res, next) => {
     }
 };
 
-
+// Returning signed in user profile
 const userProfile = async (req,res,next) => {
     try {
         let token = req.body.token || req.headers.authorization || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
@@ -51,5 +51,6 @@ const userProfile = async (req,res,next) => {
         return res.status(500).send({ message: "Internal Server Error" });
     }
 }
+
 
 export { verifyUser, userProfile };
