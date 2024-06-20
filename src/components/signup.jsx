@@ -1,5 +1,4 @@
 import React from "react";
-import User from "../models/User.model";
 import axios from "axios";
 
 export default function Signup({ togglemode }) {
@@ -21,7 +20,7 @@ export default function Signup({ togglemode }) {
       formData.password
     ) {
       await axios.post(
-        "http://3.219.61.208:3000/api/users/signup",
+        "http://localhost:3000/api/users/signup",
         formData
       ).then((res) => {
         const { message} = res.data;

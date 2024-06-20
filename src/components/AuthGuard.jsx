@@ -9,7 +9,7 @@ const AuthGuard = ({ children }) => {
     const verifyToken = async (token) => {
       try {
         const response = await axios.get(
-          "http://3.219.61.208:3000/api/verify-token",
+          "http://localhost:3000/api/verify-token",
           {
             params: {
               token: token,

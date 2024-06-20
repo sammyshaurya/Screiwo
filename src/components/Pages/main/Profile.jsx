@@ -6,8 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import axios from "axios";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
-import { Theme } from "@radix-ui/themes";
-import { Button } from "@radix-ui/themes";
+import { Button } from "@/components/ui/button";
 import { StretchVerticallyIcon } from "@radix-ui/react-icons";
 
 export const Profile = () => {
@@ -43,7 +42,7 @@ export const Profile = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://3.219.61.208:3000/api/user/allposts",
+          "http://localhost:3000/api/user/allposts",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -68,7 +67,7 @@ export const Profile = () => {
           Navigate("/");
           return;
         }
-        const response = await axios.get("http://3.219.61.208:3000/api/profile", {
+        const response = await axios.get("http://localhost:3000/api/profile", {
           headers: {
             Authorization: token,
           },
@@ -104,7 +103,7 @@ export const Profile = () => {
                     {user?.user.username || "Usernameblock"}
                   </div>
                   <Link to={"/post"}>
-                    <Button color="indigo" variant="soft" className="mt-2 ">
+                    <Button>
                       <StretchVerticallyIcon />
                       Create Post
                     </Button>

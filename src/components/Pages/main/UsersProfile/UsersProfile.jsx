@@ -4,6 +4,7 @@ import { Posts } from "../Posts";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 import { Navigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -13,10 +14,47 @@ export const UsersProfile = () => {
   const [posts, setPosts] = useState([]);
   const [profile, setprofile] = useState("");
   const searchUser = useParams();
+  const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
     fetchImage();
   }, []);
+
+  const submitFollow = async (toFollow) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        Navigate("/");
+        return;
+      }
+      const response = await axios.get(
+        `http://localhost:3000/api/users/profile/follow`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+          params: {
+            followUser: toFollow,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setFollowed(true);
+        console.log(response.data);
+      } else {
+        setFollowed(false);
+        console.log("error in following");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (curUser && !followed) {
+      submitFollow(curUser.userid);
+    }
+  }, [curUser, followed]);
 
   const fetchImage = () => {
     if (profile) {
@@ -46,7 +84,7 @@ export const UsersProfile = () => {
           return;
         }
         const response = await axios.get(
-          `http://3.219.61.208:3000/api/screiwousersprofiledata`,
+          `http://localhost:3000/api/screiwousersprofiledata`,
           {
             params: {
               username: searchUser.username,
@@ -68,13 +106,13 @@ export const UsersProfile = () => {
           userid: response.data[0].userid,
         };
         setUser(userprofile);
-        
+
         const fetchPosts = async () => {
           try {
             const response = await axios.get(
-              "http://3.219.61.208:3000/api/screiwousersprofilepost",
+              "http://localhost:3000/api/screiwousersprofilepost",
               {
-                params: { userid : userprofile.userid },
+                params: { userid: userprofile.userid },
               }
             );
             setPosts(response.data);
@@ -90,7 +128,7 @@ export const UsersProfile = () => {
     };
 
     fetchData();
-  }, []);
+  }, [searchUser.username]);
 
   return (
     <div>
@@ -109,13 +147,26 @@ export const UsersProfile = () => {
                   <div className="username text-decoration-line: underline ml-16 mb-3">
                     {curUser && curUser.username}
                   </div>
+                  <div className="ml-auto">
+                    <Button
+                      type="submit"
+                      onClick={() => submitFollow(curUser.userid)}
+                    >
+                      {followed ? "Following" : "Follow"}
+                    </Button>
+                  </div>
                 </div>
                 <div className="flex-col">
                   <div className="flex">
                     <div className="ml-16 mb-2">{`${posts.length} posts`}</div>
-                    <div className="ml-8 mb-2">{`0 followers`}</div>
-                    <div className="ml-8 mb-2">{`0 following`}</div>
+                    <div className="ml-8 mb-2">
+                      {curUser && `${curUser.Followers} followers`}
+                    </div>
+                    <div className="ml-8 mb-2">
+                      {curUser && `${curUser.Followings} following`}
+                    </div>
                   </div>
+
                   <h5 className="ml-16 mb-3 text-gray-700">
                     {(curUser &&
                       curUser?.FirstName + " " + curUser?.LastName) ||

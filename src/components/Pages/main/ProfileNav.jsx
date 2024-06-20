@@ -31,7 +31,7 @@ export const ProfileNav = () => {
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     if (e.target.value.trim().length > 2) {
-      fetch(`http://3.219.61.208:3000/api/allusers?q=${e.target.value}`)
+      fetch(`http://localhost:3000/api/allusers?q=${e.target.value}`)
         .then((response) => response.json())
         .then((data) => {
           setSearchList(

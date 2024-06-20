@@ -5,6 +5,7 @@ import 'dotenv/config'
 import Router from './routes/routes.js'
 import posts from './routes/posts.js'
 import verifyUser from './routes/verifyUser.js'
+import follows from './routes/follows.js'
 
 const App = express();
 
@@ -14,6 +15,7 @@ App.use(cors());
 App.use(Router)
 App.use(verifyUser)
 App.use(posts)
+App.use(follows);
 
 // Connect to the database
 const connectdb = async () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import { useNavigate } from "react-router-dom";
 
 export default function Signin({ togglemode }) {
   const [formData, setFormData] = React.useState({
@@ -20,7 +20,7 @@ export default function Signin({ togglemode }) {
     const { username, password } = formData;
     try {
       const res = await axios.get(
-        `http://3.219.61.208:3000/api/users/login?username=${username}&password=${password}`
+        `http://localhost:3000/api/users/login?username=${username}&password=${password}`
       );
       const { profiled, token } = res.data;
       localStorage.setItem("token", token);

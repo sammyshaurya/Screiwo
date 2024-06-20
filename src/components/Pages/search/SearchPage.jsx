@@ -37,7 +37,7 @@ const SearchPage = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://3.219.61.208:3000/api/allusers?q=${query}`,
+        `http://localhost:3000/api/allusers?q=${query}`,
         {
           method: "GET",
           headers: {

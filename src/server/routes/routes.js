@@ -1,7 +1,6 @@
 import express from "express";
 import User from "../../models/User.model.js";
 import Profile from "../../models/Profile.model.js";
-import Posts from "../../models/Posts.model.js";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -10,6 +9,23 @@ import {verifyUser, userProfile} from './fetchData.js'
 const Router = express.Router();
 
 Router.use(cors());
+
+// A function for rollback previous profile model
+// async function fixmodel(){
+//   try {
+//     const profiles = await Profile.find({ posts: { $exists: false } });
+
+//     for (const profile of profiles) {
+//         profile.posts = [];
+//         await profile.save();
+//     }
+
+//     console.log("Migration completed: Added 'posts' field to existing profiles");
+// } catch (err) {
+//     console.error("Error during migration:", err);
+// }
+// }
+// fixmodel()
 
 // currently being used to by nav to search for users in the database
 Router.get("/api/allusers", async (req, res) => {
@@ -55,7 +71,6 @@ Router.get("/api/screiwousersprofiledata", async (req, res) => {
 });
 
 Router.get("/api/profile", verifyUser, userProfile, async (req, res) => {
-  const token = req.headers.authorization;
   const userProfile = {profile : req.profile, user: req.user}
   res.status(201).send(userProfile)
 })
