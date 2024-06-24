@@ -31,7 +31,7 @@ export const ProfileNav = () => {
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     if (e.target.value.trim().length > 2) {
-      fetch(`http://localhost:3000/api/allusers?q=${e.target.value}`)
+      fetch(`https://screiwo-backend.onrender.com/api/allusers?q=${e.target.value}`)
         .then((response) => response.json())
         .then((data) => {
           setSearchList(

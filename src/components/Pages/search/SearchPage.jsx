@@ -37,7 +37,7 @@ const SearchPage = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/allusers?q=${query}`,
+        `https://screiwo-backend.onrender.com/api/allusers?q=${query}`,
         {
           method: "GET",
           headers: {

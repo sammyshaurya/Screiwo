@@ -28,7 +28,7 @@ export const UsersProfile = () => {
         return;
       }
       const response = await axios.get(
-        `http://localhost:3000/api/users/profile/follow`,
+        `https://screiwo-backend.onrender.com/api/users/profile/follow`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -84,7 +84,7 @@ export const UsersProfile = () => {
           return;
         }
         const response = await axios.get(
-          `http://localhost:3000/api/screiwousersprofiledata`,
+          `https://screiwo-backend.onrender.com/api/screiwousersprofiledata`,
           {
             params: {
               username: searchUser.username,
@@ -110,7 +110,7 @@ export const UsersProfile = () => {
         const fetchPosts = async () => {
           try {
             const response = await axios.get(
-              "http://localhost:3000/api/screiwousersprofilepost",
+              "https://screiwo-backend.onrender.com/api/screiwousersprofilepost",
               {
                 params: { userid: userprofile.userid },
               }

@@ -42,7 +42,7 @@ export const Profile = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/user/allposts",
+          "https://screiwo-backend.onrender.com/api/user/allposts",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -67,7 +67,7 @@ export const Profile = () => {
           Navigate("/");
           return;
         }
-        const response = await axios.get("http://localhost:3000/api/profile", {
+        const response = await axios.get("https://screiwo-backend.onrender.com/api/profile", {
           headers: {
             Authorization: token,
           },

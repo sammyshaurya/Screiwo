@@ -20,7 +20,7 @@ export default function Signup({ togglemode }) {
       formData.password
     ) {
       await axios.post(
-        "http://localhost:3000/api/users/signup",
+        "https://screiwo-backend.onrender.com/api/users/signup",
         formData
       ).then((res) => {
         const { message} = res.data;

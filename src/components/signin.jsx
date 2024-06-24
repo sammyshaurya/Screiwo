@@ -20,7 +20,7 @@ export default function Signin({ togglemode }) {
     const { username, password } = formData;
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/users/login?username=${username}&password=${password}`
+        `https://screiwo-backend.onrender.com/api/users/login?username=${username}&password=${password}`
       );
       const { profiled, token } = res.data;
       localStorage.setItem("token", token);

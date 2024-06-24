@@ -22,7 +22,7 @@ const Postings = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/users/createpost",
+        "https://screiwo-backend.onrender.com/api/users/createpost",
         { title, content },
         {
           headers: {
